@@ -1,6 +1,8 @@
-Name: Gabriel Alexander Torres
-Class: CSCE 3301
-Title: Towers of Hanoi
+// CSCE 3301 - Algorithms and Data Structures
+// README.txt
+// TowersOfHanoi
+//
+// Created by Gabriel Torres on 9/12/22.
 
 This program uses an applied implementation of the Linked List based Stack.
 

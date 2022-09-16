@@ -23,9 +23,9 @@ public:
         head->next = tail;
         count = 0;
     }
-    void push(int element){
+    void push(int input){
         Node* newNode = new Node();
-        newNode->element = element;
+        newNode->element = input;
         newNode->next = head;
         head = newNode;
         count++;

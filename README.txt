@@ -1,8 +1,8 @@
-// CSCE 3301 - Algorithms and Data Structures
-// README.txt
-// TowersOfHanoi
-//
-// Created by Gabriel Torres on 9/12/22.
+CSCE 3301 - Algorithms and Data Structures
+README.txt
+TowersOfHanoi
+
+Created by Gabriel Torres on 9/12/22.
 
 This program uses an applied implementation of the Linked List based Stack.
 

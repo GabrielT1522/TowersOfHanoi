@@ -3,14 +3,13 @@
 // TowersOfHanoi
 //
 // Created by Gabriel Torres on 9/12/22.
-
 #include <iostream>
 using namespace std;
 
 // Create Node Link
 class Node{
 public:
-    int element;
+    char element;
     Node* next;
 };
 
@@ -23,19 +22,19 @@ public:
         head->next = tail;
         count = 0;
     }
-    void push(int input){
+    void push(char input){
         Node* newNode = new Node();
         newNode->element = input;
         newNode->next = head;
         head = newNode;
         count++;
     }
-    int pop(){
+    char pop(){
         if (empty()){
             cout << "Can not pop. Stack is empty." << endl;
             exit(0);
         }
-        int nodeElement = head->element;
+        char nodeElement = head->element;
         Node* tempNode = head;
         head = head->next;
 
@@ -44,7 +43,7 @@ public:
         return nodeElement;
     }
 
-    int top(){
+    char top(){
         return head->element;
     }
     bool empty(){
@@ -63,11 +62,11 @@ public:
         }
 
         Node *tempNode = head;
-        while (tempNode != tail){
-            cout << tempNode->element << " >< ";
+        while (tempNode != tail-1){
+            cout << tempNode->element << endl;
             tempNode = tempNode->next;
         }
-        cout << endl;
+        //cout << endl;
     }
 
 private:
@@ -76,22 +75,79 @@ private:
     int count;
 };
 
+class TowersOfHanoi{
+private:
+    LinkedListStack stack1;
+    LinkedListStack stack2;
+    LinkedListStack stack3;
+    int moves;
+public:
+    TowersOfHanoi(){
+        stack1.push('-');
+        stack1.push('3');
+        stack1.push('2');
+        stack1.push('1');
+
+        stack2.push('-');
+        stack3.push('-');
+        moves = 0;
+    }
+
+    void moveDisk(){
+        stack2.push(stack1.pop());
+        moves++;
+    }
+
+    void displayTowers(){
+        cout << "Towers as of " << moves << " moves.\n";
+        cout << "Tower 1:\n";
+        stack1.display();
+
+        cout << "Tower 2:\n";
+        stack2.display();
+
+        cout << "Tower 3:\n";
+        stack3.display();
+    }
+
+};
+
 // Main Program - Towers of Hanoi
 int main() {
-    LinkedListStack stack;
+    TowersOfHanoi game;
+    game.displayTowers();
+    game.moveDisk();
+    game.displayTowers();
 
-    stack.push(5);
-    stack.push(9);
-    stack.push(7);
-    stack.push(9);
-    stack.push(10);
-    cout << "Current stack size: " << stack.size() << endl;
-    stack.display();
-    stack.pop();
-    stack.pop();
-    cout << "Current stack size: " << stack.size() << endl;
-    cout << "Current top: " << stack.top() << endl;
-    stack.display();
+
+
+
+
+
+
+
+
+    /*LinkedListStack stack1;
+    LinkedListStack stack2;
+    LinkedListStack stack3;
+
+    stack1.push(3);
+    stack1.push(2);
+    stack1.push(1);
+
+    stack1.push(1);
+    stack1.push(2);
+    stack1.push(1);
+    cout << "Current stack1 size: " << stack1.size() << endl;
+    stack1.display();
+    cout << "Current stack1 size: " << stack1.size() << endl;
+    stack1.pop();
+    cout << "Top " << stack1.top() << endl;
+    cout << "Popped stack" << stack1.pop() << endl;
+    stack1.pop();
+    cout << "Current stack1 size: " << stack1.size() << endl;
+    cout << "Current top: " << stack1.top() << endl;
+    stack1.display();*/
 
     return 0;
 }

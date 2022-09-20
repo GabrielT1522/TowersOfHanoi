@@ -9,7 +9,7 @@ using namespace std;
 // Create Node Link
 class Node{
 public:
-    char element;
+    int element;
     Node* next;
 };
 
@@ -22,19 +22,19 @@ public:
         head->next = tail;
         count = 0;
     }
-    void push(char input){
+    void push(int input){
         Node* newNode = new Node();
         newNode->element = input;
         newNode->next = head;
         head = newNode;
         count++;
     }
-    char pop(){
+    int pop(){
         if (empty()){
             cout << "Can not pop. Stack is empty." << endl;
-            exit(0);
+            exit(1);
         }
-        char nodeElement = head->element;
+        int nodeElement = head->element;
         Node* tempNode = head;
         head = head->next;
 
@@ -43,7 +43,7 @@ public:
         return nodeElement;
     }
 
-    char top(){
+    int top(){
         return head->element;
     }
     bool empty(){
@@ -66,7 +66,6 @@ public:
             cout << tempNode->element << endl;
             tempNode = tempNode->next;
         }
-        //cout << endl;
     }
 
 private:
@@ -75,6 +74,7 @@ private:
     int count;
 };
 
+// Towers of Hanoi Game Class
 class TowersOfHanoi{
 private:
     LinkedListStack stack1;
@@ -83,71 +83,139 @@ private:
     int moves;
 public:
     TowersOfHanoi(){
-        stack1.push('-');
-        stack1.push('3');
-        stack1.push('2');
-        stack1.push('1');
-
-        stack2.push('-');
-        stack3.push('-');
+        stack1.push(3);
+        stack1.push(2);
+        stack1.push(1);
         moves = 0;
     }
 
-    void moveDisk(){
-        stack2.push(stack1.pop());
-        moves++;
+    void moveDisk(int fromStack, int toStack){
+        switch (fromStack) {
+            case 1:
+                switch (toStack){
+                    case 2:
+                        if (stack1.top() > stack2.top() && !stack2.empty()){
+                            cout << "Invalid move. No larger disk may be placed on top of a smaller disk.\n";
+                            break;
+                        }
+                        stack2.push(stack1.pop());
+                        moves++;
+                        break;
+                    case 3:
+                        if (stack1.top() > stack3.top() && !stack3.empty()){
+                            cout << "Invalid move. No larger disk may be placed on top of a smaller disk.\n";
+                            break;
+                        }
+                        stack3.push(stack1.pop());
+                        moves++;
+                        break;
+                    default:
+                        cout << "Invalid move.";
+                        break;
+                }
+                break;
+            case 2:
+                switch (toStack){
+                    case 1:
+                        if (stack2.top() > stack1.top() && !stack1.empty()){
+                            cout << "Invalid move. No larger disk may be placed on top of a smaller disk.\n";
+                            break;
+                        }
+                        stack1.push(stack2.pop());
+                        moves++;
+                        break;
+                    case 3:
+                        if (stack2.top() > stack3.top() && !stack3.empty()){
+                            cout << "Invalid move. No larger disk may be placed on top of a smaller disk.\n";
+                            break;
+                        }
+                        stack3.push(stack2.pop());
+                        moves++;
+                        break;
+                    default:
+                        cout << "Invalid move.";
+                        break;
+                }
+                break;
+            case 3:
+                switch (toStack){
+                    case 1:
+                        if (stack3.top() > stack1.top() && !stack1.empty()){
+                            cout << "Invalid move. No larger disk may be placed on top of a smaller disk.\n";
+                            break;
+                        }
+                        stack1.push(stack3.pop());
+                        moves++;
+                        break;
+                    case 2:
+                        if (stack3.top() > stack2.top() && !stack2.empty()){
+                            cout << "Invalid move. No larger disk may be placed on top of a smaller disk.\n";
+                            break;
+                        }
+                        stack2.push(stack3.pop());
+                        moves++;
+                        break;
+                    default:
+                        cout << "Invalid move.";
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    bool win(){
+        if (stack2.size()==3 && stack2.top()==1){
+            displayTowers();
+            cout << "Congratulations, You Win!";
+            return true;
+        } else if (stack3.size()==3 && stack3.top()==1){
+            displayTowers();
+            cout << "Congratulations, You Win!";
+            return true;
+        }else
+            return false;
     }
 
     void displayTowers(){
         cout << "Towers as of " << moves << " moves.\n";
         cout << "Tower 1:\n";
-        stack1.display();
+        if (stack1.empty())
+            cout << "|\n";
+        else
+            stack1.display();
 
         cout << "Tower 2:\n";
-        stack2.display();
+        if (stack2.empty())
+            cout << "|\n";
+        else
+            stack2.display();
 
         cout << "Tower 3:\n";
-        stack3.display();
+        if (stack3.empty())
+            cout << "|\n";
+        else
+            stack3.display();
     }
-
 };
 
 // Main Program - Towers of Hanoi
 int main() {
     TowersOfHanoi game;
-    game.displayTowers();
-    game.moveDisk();
-    game.displayTowers();
+    cout << "Welcome to a game of Towers of Hanoi!\n";
 
+    while (!game.win()) {
+        int toStack, fromStack;
+        game.displayTowers();
 
-
-
-
-
-
-
-
-    /*LinkedListStack stack1;
-    LinkedListStack stack2;
-    LinkedListStack stack3;
-
-    stack1.push(3);
-    stack1.push(2);
-    stack1.push(1);
-
-    stack1.push(1);
-    stack1.push(2);
-    stack1.push(1);
-    cout << "Current stack1 size: " << stack1.size() << endl;
-    stack1.display();
-    cout << "Current stack1 size: " << stack1.size() << endl;
-    stack1.pop();
-    cout << "Top " << stack1.top() << endl;
-    cout << "Popped stack" << stack1.pop() << endl;
-    stack1.pop();
-    cout << "Current stack1 size: " << stack1.size() << endl;
-    cout << "Current top: " << stack1.top() << endl;
-    stack1.display();*/
+        cout << "\nMove disk from tower number: ";
+        cin >> fromStack;
+        cout << "Move disk to tower number: ";
+        cin >> toStack;
+        game.moveDisk(fromStack, toStack);
+    }
 
     return 0;
 }
